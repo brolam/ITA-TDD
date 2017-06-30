@@ -15,5 +15,13 @@ public class CaixaEletronicoTest {
 		CaixaEletronico caixaEletronico = new CaixaEletronico(mockServicoRemoto);
 		assertEquals("Usuário Autenticado", caixaEletronico.logar(1));
 	}
+	
+	@Test
+	public void whenLogarComFalha() {
+		MockServicoRemoto mockServicoRemoto = new MockServicoRemoto();
+		mockServicoRemoto.setContaCorrenteCadastrada(1);
+		CaixaEletronico caixaEletronico = new CaixaEletronico(mockServicoRemoto);
+		assertEquals("Não foi possível autenticar o usuário", caixaEletronico.logar(2));
+	}
 
 }

@@ -10,7 +10,7 @@ public class CaixaEletronico {
 	public String logar(int numeroDaContaCorrente) {
 		ContaCorrente contaCorrenteRecuperada = servicoRemoto.recuperarConta(numeroDaContaCorrente);
 		if (contaCorrenteRecuperada == null)
-			return "";
+			return "Não foi possível autenticar o usuário";
 		else
 			return "Usuário Autenticado";
 	}
