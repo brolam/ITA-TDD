@@ -2,9 +2,15 @@ package bancox;
 
 public class CaixaEletronico {
 	private ServicoRemoto servicoRemoto;
+	private Hardware hardware;
 
 	public CaixaEletronico(ServicoRemoto servicoRemoto) {
 		this.servicoRemoto = servicoRemoto;
+	}
+
+	public CaixaEletronico(ServicoRemoto servicoRemoto, Hardware hardware) {
+		this(servicoRemoto);
+		this.hardware = hardware;
 	}
 
 	public String logar(String numeroDaContaCorrente) {
@@ -14,4 +20,17 @@ public class CaixaEletronico {
 		else
 			return "Usuário Autenticado";
 	}
+
+	public String logar() {
+		if ( isHardwareOnLine()){
+			String numeroDaContaCorrente = hardware.pegarNumeroDaContaCartao();
+			return logar(numeroDaContaCorrente);
+		}
+		return null;
+	}
+
+	private boolean isHardwareOnLine() {
+		return this.hardware instanceof Hardware;
+	}
+
 }
