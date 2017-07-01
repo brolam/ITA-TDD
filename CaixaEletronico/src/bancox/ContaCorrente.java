@@ -1,9 +1,9 @@
 package bancox;
 
 public class ContaCorrente {
-	private int numero;
+	private String numero;
 	
-	public ContaCorrente(int numero){
+	public ContaCorrente(String numero){
 		this.numero = numero;
 	}
 }

@@ -5,15 +5,15 @@ import bancox.ContaCorrente;
 import bancox.ServicoRemoto;
 
 public class MockServicoRemoto implements ServicoRemoto {
-	int numeroCadastrado;
+	String numeroCadastrado;
 
-	public void setContaCorrenteCadastrada(int numeroDaContaCorrente) {
+	public void setContaCorrenteCadastrada(String numeroDaContaCorrente) {
 		this.numeroCadastrado = numeroDaContaCorrente;
 	}
 
 	@Override
-	public @Nullable ContaCorrente recuperarConta(int numeroDaContaCorrente) {
-		if (numeroDaContaCorrente == this.numeroCadastrado)
+	public @Nullable ContaCorrente recuperarConta(String numeroDaContaCorrente) {
+		if (this.numeroCadastrado.equals(numeroDaContaCorrente) )
 			return new ContaCorrente(numeroCadastrado);
 		else
 			return null;
