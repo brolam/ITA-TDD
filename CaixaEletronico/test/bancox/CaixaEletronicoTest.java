@@ -2,6 +2,7 @@ package bancox;
 
 import static org.junit.Assert.*;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import bancox.mocks.MockHardware;
@@ -10,47 +11,48 @@ import bancox.mocks.MockHardwareComFalha.ConfigurarFalha;
 import bancox.mocks.MockServicoRemoto;
 
 public class CaixaEletronicoTest {
-
+	MockServicoRemoto mockServicoRemoto;
+	MockHardware mockHardware;
+	
+	@Before
+	public void iniciarMocks(){
+		this.mockServicoRemoto = new MockServicoRemoto();
+		this.mockHardware = new MockHardware();
+	}
 
 	@Test
 	public void whenLogarComSucesso() {
-		MockServicoRemoto mockServicoRemoto = new MockServicoRemoto();
-		mockServicoRemoto.setContaCorrenteCadastrada("2001700001");
-		CaixaEletronico caixaEletronico = new CaixaEletronico(mockServicoRemoto);
+		this.mockServicoRemoto.setContaCorrenteCadastrada("2001700001");
+		CaixaEletronico caixaEletronico = new CaixaEletronico(this.mockServicoRemoto);
 		assertEquals("Usuário Autenticado", caixaEletronico.logar("2001700001"));
 	}
 	
 	@Test
 	public void whenLogarComFalha() {
-		MockServicoRemoto mockServicoRemoto = new MockServicoRemoto();
-		mockServicoRemoto.setContaCorrenteCadastrada("2001700001");
-		CaixaEletronico caixaEletronico = new CaixaEletronico(mockServicoRemoto);
+		this.mockServicoRemoto.setContaCorrenteCadastrada("2001700001");
+		CaixaEletronico caixaEletronico = new CaixaEletronico(this.mockServicoRemoto);
 		assertEquals("Não foi possível autenticar o usuário", caixaEletronico.logar("2001700002"));
 	}
 	
 	@Test
 	public void whenLogarLendoCartaoComSucesso() throws HardwareExceptions{
-		MockServicoRemoto mockServicoRemoto = new MockServicoRemoto();
-		MockHardware mockHardware = new MockHardware();
-		CaixaEletronico caixaEletronico = new CaixaEletronico(mockServicoRemoto, mockHardware);		
-		mockServicoRemoto.setContaCorrenteCadastrada("2001700001");
-		mockHardware.setContaCorrenteCadastrada("2001700001");
+		CaixaEletronico caixaEletronico = new CaixaEletronico(this.mockServicoRemoto, this.mockHardware);		
+		this.mockServicoRemoto.setContaCorrenteCadastrada("2001700001");
+		this.mockHardware.setContaCorrenteCadastrada("2001700001");
 		assertEquals("Usuário Autenticado", caixaEletronico.logar());
 		
 	}
 	
 	@Test(expected=HardwareExceptions.LerCartaoException.class)
 	public void whenLogarLendoCartaoComFalha() throws HardwareExceptions{
-		MockServicoRemoto mockServicoRemoto = new MockServicoRemoto();
 		MockHardwareComFalha mockHardwareComFalha = new MockHardwareComFalha(ConfigurarFalha.LER_CARTAO);
-		CaixaEletronico caixaEletronico = new CaixaEletronico(mockServicoRemoto, mockHardwareComFalha);
+		CaixaEletronico caixaEletronico = new CaixaEletronico(this.mockServicoRemoto, mockHardwareComFalha);
 		caixaEletronico.logar();
 	}
 	
 	@Test
 	public void whenLogarLendoCartaoComHardwareOffLine() throws HardwareExceptions{
-		MockServicoRemoto mockServicoRemoto = new MockServicoRemoto();
-		CaixaEletronico caixaEletronico = new CaixaEletronico(mockServicoRemoto);		
+		CaixaEletronico caixaEletronico = new CaixaEletronico(this.mockServicoRemoto);		
 		mockServicoRemoto.setContaCorrenteCadastrada("2001700001");
 		assertEquals("Este terminal não está indisponível!", caixaEletronico.logar());
 	}
