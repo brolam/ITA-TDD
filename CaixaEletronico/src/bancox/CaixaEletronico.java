@@ -26,11 +26,21 @@ public class CaixaEletronico {
 			String numeroDaContaCorrente = hardware.pegarNumeroDaContaCartao();
 			return logar(numeroDaContaCorrente);
 		}
-		return "Este terminal não está indisponível!";
+		return "Este terminal está indisponível!";
 	}
 
 	private boolean isHardwareOnLine() {
 		return this.hardware instanceof Hardware;
 	}
 
+	public String depositar(String numeroDaContaCorrente, double valorDepositado) {
+		ContaCorrente contaCorrenteParaDeposito = servicoRemoto.recuperarConta(numeroDaContaCorrente);
+		if (contaCorrenteParaDeposito == null)
+			return null;
+		else{
+			contaCorrenteParaDeposito.adicionarSaldo(valorDepositado);
+			this.servicoRemoto.persistirConta(contaCorrenteParaDeposito);
+			return "Depósito recebido com sucesso";
+		}
+	}
 }

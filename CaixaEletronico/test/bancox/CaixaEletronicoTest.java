@@ -54,7 +54,14 @@ public class CaixaEletronicoTest {
 	public void whenLogarLendoCartaoComHardwareOffLine() throws HardwareExceptions{
 		CaixaEletronico caixaEletronico = new CaixaEletronico(this.mockServicoRemoto);		
 		mockServicoRemoto.setContaCorrenteCadastrada("2001700001");
-		assertEquals("Este terminal não está indisponível!", caixaEletronico.logar());
+		assertEquals("Este terminal está indisponível!", caixaEletronico.logar());
+	}
+	
+	@Test
+	public void whenDepositarComSucesso(){
+		CaixaEletronico caixaEletronico = new CaixaEletronico(this.mockServicoRemoto);
+		mockServicoRemoto.setContaCorrenteCadastrada("2001700001");
+		assertEquals("Depósito recebido com sucesso", caixaEletronico.depositar("2001700001", 1000.00));
 	}
 
 }

@@ -18,4 +18,8 @@ public class MockServicoRemoto implements ServicoRemoto {
 		else
 			return null;
 	}
+
+	@Override
+	public void persistirConta(ContaCorrente contaCorrente) {
+	}
 }
