@@ -21,12 +21,12 @@ public class CaixaEletronico {
 			return "Usuário Autenticado";
 	}
 
-	public String logar() {
+	public String logar() throws HardwareExceptions {
 		if ( isHardwareOnLine()){
 			String numeroDaContaCorrente = hardware.pegarNumeroDaContaCartao();
 			return logar(numeroDaContaCorrente);
 		}
-		return null;
+		return "Este terminal não está indisponível!";
 	}
 
 	private boolean isHardwareOnLine() {

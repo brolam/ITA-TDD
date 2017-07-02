@@ -1,6 +1,6 @@
 package bancox;
 
 public interface Hardware {
-	String pegarNumeroDaContaCartao();
+	String pegarNumeroDaContaCartao() throws HardwareExceptions;
 
 }
