@@ -1,6 +1,7 @@
 package bancox;
 
 public class CaixaEletronico {
+	private static String MSG_HARDWARE_INDISPONIVEL = "Este terminal está indisponível!"; 
 	private ServicoRemoto servicoRemoto;
 	private Hardware hardware;
 
@@ -26,7 +27,7 @@ public class CaixaEletronico {
 			String numeroDaContaCorrente = hardware.pegarNumeroDaContaCartao();
 			return logar(numeroDaContaCorrente);
 		}
-		return "Este terminal está indisponível!";
+		return MSG_HARDWARE_INDISPONIVEL;
 	}
 
 	private boolean isHardwareOnLine() {
@@ -42,5 +43,13 @@ public class CaixaEletronico {
 			this.servicoRemoto.persistirConta(contaCorrenteParaDeposito);
 			return "Depósito recebido com sucesso";
 		}
+	}
+
+	public String depositar(double valorDepositado) throws HardwareExceptions {
+		if ( isHardwareOnLine()){
+			String numeroDaContaLidoNoCartao = hardware.pegarNumeroDaContaCartao();
+			return this.depositar(numeroDaContaLidoNoCartao, valorDepositado);
+		}
+		return MSG_HARDWARE_INDISPONIVEL;
 	}
 }
