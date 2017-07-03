@@ -71,5 +71,19 @@ public class CaixaEletronicoTest {
 		this.mockHardware.setContaCorrenteCadastrada("2001700001");
 		assertEquals("Depósito recebido com sucesso", caixaEletronico.depositar(1000.00));
 	}
+	
+	@Test
+	public void whenDepositarLendoCartaoComHardwareOffLineo() throws HardwareExceptions{
+		CaixaEletronico caixaEletronico = new CaixaEletronico(this.mockServicoRemoto);
+		this.mockServicoRemoto.setContaCorrenteCadastrada("2001700001");
+		assertEquals("Este terminal está indisponível!", caixaEletronico.depositar(1000.00));
+	}
+	
+	@Test(expected=HardwareExceptions.LerCartaoException.class)
+	public void whenDepositarLendoCartaoComFalha() throws HardwareExceptions{
+		MockHardwareComFalha mockHardwareComFalha = new MockHardwareComFalha(ConfigurarFalha.LER_CARTAO);
+		CaixaEletronico caixaEletronico = new CaixaEletronico(this.mockServicoRemoto, mockHardwareComFalha);
+		caixaEletronico.depositar(1000.00);
+	}
 
 }
