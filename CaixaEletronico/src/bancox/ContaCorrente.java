@@ -12,4 +12,12 @@ public class ContaCorrente {
 	public void adicionarSaldo(double valorDepositado){
 		this.saldo += valorDepositado;
 	}
+	
+	public String getNumero() {
+		return numero;
+	}
+
+	public Double getSaldo() {
+		return saldo;
+	}
 }
