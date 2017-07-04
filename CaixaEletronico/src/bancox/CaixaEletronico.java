@@ -56,7 +56,7 @@ public class CaixaEletronico {
 	public String saldo(String numeroDaContaCorrente) {
 		ContaCorrente contaCorrenteRecuperada = servicoRemoto.recuperarConta(numeroDaContaCorrente);
 		if (contaCorrenteRecuperada == null)
-			return null;
+			return "Não foi possível consultar o Saldo!";
 		else{
 			String mensagemSaldo = String.format("O saldo é R$%.2f", contaCorrenteRecuperada.getSaldo());
 			return mensagemSaldo;
