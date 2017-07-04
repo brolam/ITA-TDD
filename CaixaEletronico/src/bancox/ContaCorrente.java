@@ -25,4 +25,8 @@ public class ContaCorrente {
 		this.saldo -= valorDoSaque;
 		
 	}
+
+	public boolean isSaldoSuficienteParaSaque(Double valorDoSaque) {
+		return this.saldo >= valorDoSaque ;
+	}
 }

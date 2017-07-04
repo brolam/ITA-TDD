@@ -95,9 +95,15 @@ public class CaixaEletronico {
 		ContaCorrente contaCorrenteParaSaque = servicoRemoto.recuperarConta(numeroDaContaCorrente);
 		if (contaCorrenteParaSaque == null)
 			return "Saque não foi realizado!";
-		else{
+		if (contaCorrenteParaSaque.isSaldoSuficienteParaSaque(valorDoSaque)) {
 			contaCorrenteParaSaque.realizarSaque(valorDoSaque);
 			return "Retire seu dinheiro";
+		} else {
+			return "Saldo insuficiente";
 		}
+	}
+
+	public Object sacar(double valorDoSaque) {
+		return MSG_HARDWARE_INDISPONIVEL;
 	}
 }

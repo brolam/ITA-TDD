@@ -80,7 +80,7 @@ public class CaixaEletronicoTest {
 	}
 	
 	@Test
-	public void whenDepositarComHardwareOffLineo() throws HardwareExceptions{
+	public void whenDepositarComHardwareOffLine() throws HardwareExceptions{
 		CaixaEletronico caixaEletronico = new CaixaEletronico(this.mockServicoRemoto);
 		this.mockServicoRemoto.setContaCorrenteCadastrada("2001700001");
 		assertEquals("Este terminal está indisponível!", caixaEletronico.depositar(1000.00));
@@ -143,5 +143,22 @@ public class CaixaEletronicoTest {
 		assertEquals("Saque não foi realizado!", caixaEletronico.sacar("2001700002", 500.00));
 		assertEquals("O saldo é R$1000,00", caixaEletronico.saldo("2001700001"));
 	}
+	
+	@Test
+	public void whenSacar500ReaisComSaldoInsuficiente(){
+		CaixaEletronico caixaEletronico = new CaixaEletronico(this.mockServicoRemoto);
+		this.mockServicoRemoto.setContaCorrenteCadastrada("2001700001");
+		assertEquals("Saldo insuficiente", caixaEletronico.sacar("2001700001", 500.00));
+		assertEquals("O saldo é R$0,00", caixaEletronico.saldo("2001700001"));
+	}
+	
+	@Test
+	public void whenSacar500ReaisComHardwareOffLine(){
+		CaixaEletronico caixaEletronico = new CaixaEletronico(this.mockServicoRemoto);
+		this.mockServicoRemoto.setContaCorrenteCadastrada("2001700001");
+		assertEquals("Este terminal está indisponível!", caixaEletronico.sacar(500.00));
+	}
+	
+	
 	
 }
