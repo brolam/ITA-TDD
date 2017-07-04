@@ -13,7 +13,6 @@ public abstract class HardwareExceptions extends Exception {
 		public LerCartaoException() {
 			super("Erro na leitura do cartão!");
 		}
-
 	}
 	
 	public static class LerEnvelopeException extends HardwareExceptions{
@@ -22,7 +21,14 @@ public abstract class HardwareExceptions extends Exception {
 		public LerEnvelopeException() {
 			super("Erro na leitura do envelope!");
 		}
-
+	}
+	
+	public static class EntregarDinheiroException extends HardwareExceptions{
+		private static final long serialVersionUID = 1L;
+		
+		public EntregarDinheiroException() {
+			super("Erro na entrega do dinheiro!");
+		}
 	}
 
 }

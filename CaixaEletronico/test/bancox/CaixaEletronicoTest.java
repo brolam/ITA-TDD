@@ -6,6 +6,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import bancox.mocks.MockHardware;
+import static bancox.mocks.MockHardware.SimularFalha.*;
 import bancox.mocks.MockHardwareComFalha;
 import bancox.mocks.MockHardwareComFalha.ConfigurarFalha;
 import bancox.mocks.MockServicoRemoto;
@@ -172,6 +173,14 @@ public class CaixaEletronicoTest {
 		MockHardwareComFalha mockHardwareComFalha = new MockHardwareComFalha(ConfigurarFalha.LER_CARTAO);
 		CaixaEletronico caixaEletronico = new CaixaEletronico(this.mockServicoRemoto, mockHardwareComFalha);
 		assertEquals("Erro na leitura do cartão!", caixaEletronico.sacar(500.00));
+	}
+	
+	@Test
+	public void whenSacar500ReaisEntregandoDinheiroComFalha(){
+		whenDepositar1000RaisLendoCartaoLendoEnveloperComSucesso();
+		CaixaEletronico caixaEletronico = new CaixaEletronico(this.mockServicoRemoto, this.mockHardware);
+		this.mockHardware.setSimularFalha(WHEN_ENTREGAR_DINHEIRO);
+		assertEquals("Erro na entrega do dinheiro!", caixaEletronico.sacar(500.00));
 	}
 	
 }

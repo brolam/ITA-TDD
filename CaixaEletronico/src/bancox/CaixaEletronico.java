@@ -1,5 +1,6 @@
 package bancox;
 
+import bancox.HardwareExceptions.EntregarDinheiroException;
 import bancox.HardwareExceptions.LerCartaoException;
 import bancox.HardwareExceptions.LerEnvelopeException;
 
@@ -112,8 +113,8 @@ public class CaixaEletronico {
 				return mensagemSaqueComSucesso;
 			} catch( LerCartaoException e){
 				return e.getMessage();
-			} catch (HardwareExceptions e) {
-				return null;
+			} catch (EntregarDinheiroException e) {
+				return e.getMessage();
 			}
 		}
 		return MSG_HARDWARE_INDISPONIVEL;
