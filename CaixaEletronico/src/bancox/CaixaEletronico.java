@@ -37,7 +37,7 @@ public class CaixaEletronico {
 	public String depositar(String numeroDaContaCorrente, double valorDepositado) {
 		ContaCorrente contaCorrenteParaDeposito = servicoRemoto.recuperarConta(numeroDaContaCorrente);
 		if (contaCorrenteParaDeposito == null)
-			return null;
+			return "Depósito não foi realizado!";
 		else{
 			contaCorrenteParaDeposito.adicionarSaldo(valorDepositado);
 			this.servicoRemoto.persistirConta(contaCorrenteParaDeposito);
