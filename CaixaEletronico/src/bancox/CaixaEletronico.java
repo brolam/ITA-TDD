@@ -94,7 +94,7 @@ public class CaixaEletronico {
 	public String sacar(String numeroDaContaCorrente, Double valorDoSaque) {
 		ContaCorrente contaCorrenteParaSaque = servicoRemoto.recuperarConta(numeroDaContaCorrente);
 		if (contaCorrenteParaSaque == null)
-			return null;
+			return "Saque não foi realizado!";
 		else{
 			contaCorrenteParaSaque.realizarSaque(valorDoSaque);
 			return "Retire seu dinheiro";

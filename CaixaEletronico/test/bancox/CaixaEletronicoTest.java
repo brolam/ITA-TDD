@@ -136,4 +136,12 @@ public class CaixaEletronicoTest {
 		assertEquals("O saldo é R$500,00", caixaEletronico.saldo("2001700001"));
 	}
 	
+	@Test
+	public void whenSacar500ReaisComFalha(){
+		whenDepositar1000ReaisComSucesso();
+		CaixaEletronico caixaEletronico = new CaixaEletronico(this.mockServicoRemoto);
+		assertEquals("Saque não foi realizado!", caixaEletronico.sacar("2001700002", 500.00));
+		assertEquals("O saldo é R$1000,00", caixaEletronico.saldo("2001700001"));
+	}
+	
 }
