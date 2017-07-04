@@ -72,7 +72,7 @@ public class CaixaEletronicoTest {
 	}
 	
 	@Test
-	public void whenDepositarLendoCartaoComSucesso() throws HardwareExceptions{
+	public void whenDepositar1000RaisLendoCartaoComSucesso() throws HardwareExceptions{
 		CaixaEletronico caixaEletronico = new CaixaEletronico(this.mockServicoRemoto, this.mockHardware);
 		this.mockServicoRemoto.setContaCorrenteCadastrada("2001700001");
 		this.mockHardware.setContaCorrenteCadastrada("2001700001");
@@ -105,6 +105,13 @@ public class CaixaEletronicoTest {
 		this.whenDepositar1000ReaisComSucesso();
 		CaixaEletronico caixaEletronico = new CaixaEletronico(this.mockServicoRemoto);
 		assertEquals("Não foi possível consultar o Saldo!", caixaEletronico.saldo("2001700002"));
+	}
+	
+	@Test
+	public void whenConsultarSaldoLendoCartaoComSucesso() throws HardwareExceptions{
+		whenDepositar1000RaisLendoCartaoComSucesso();
+		CaixaEletronico caixaEletronico = new CaixaEletronico(this.mockServicoRemoto, this.mockHardware);
+		assertEquals("O saldo é R$1000,00", caixaEletronico.saldo());
 	}
 
 }

@@ -62,4 +62,12 @@ public class CaixaEletronico {
 			return mensagemSaldo;
 		}
 	}
+
+	public String saldo() throws HardwareExceptions {
+		if ( isHardwareOnLine()){
+			String numeroDaContaLidoNoCartao = hardware.pegarNumeroDaContaCartao();
+			return this.saldo(numeroDaContaLidoNoCartao);
+		}
+		return MSG_HARDWARE_INDISPONIVEL;
+	}
 }
