@@ -113,5 +113,12 @@ public class CaixaEletronicoTest {
 		CaixaEletronico caixaEletronico = new CaixaEletronico(this.mockServicoRemoto, this.mockHardware);
 		assertEquals("O saldo é R$1000,00", caixaEletronico.saldo());
 	}
+	
+	@Test(expected=HardwareExceptions.LerCartaoException.class)
+	public void whenConsultarSaldoLendoCartaoComFalha() throws HardwareExceptions{
+		MockHardwareComFalha mockHardwareComFalha = new MockHardwareComFalha(ConfigurarFalha.LER_CARTAO);
+		CaixaEletronico caixaEletronico = new CaixaEletronico(this.mockServicoRemoto, mockHardwareComFalha);
+		caixaEletronico.saldo();
+	}
 
 }
