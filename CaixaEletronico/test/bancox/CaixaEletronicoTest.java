@@ -128,4 +128,12 @@ public class CaixaEletronicoTest {
 		assertEquals("Erro na leitura do cartão!", caixaEletronico.saldo());
 	}
 	
+	@Test
+	public void whenSacar500ReaisComSucesso(){
+		whenDepositar1000ReaisComSucesso();
+		CaixaEletronico caixaEletronico = new CaixaEletronico(this.mockServicoRemoto);
+		assertEquals("Retire seu dinheiro", caixaEletronico.sacar("2001700001", 500.00));
+		assertEquals("O saldo é R$500,00", caixaEletronico.saldo("2001700001"));
+	}
+	
 }

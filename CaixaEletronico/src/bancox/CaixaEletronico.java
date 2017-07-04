@@ -90,4 +90,14 @@ public class CaixaEletronico {
 		}
 		return MSG_HARDWARE_INDISPONIVEL;
 	}
+
+	public String sacar(String numeroDaContaCorrente, Double valorDoSaque) {
+		ContaCorrente contaCorrenteParaSaque = servicoRemoto.recuperarConta(numeroDaContaCorrente);
+		if (contaCorrenteParaSaque == null)
+			return null;
+		else{
+			contaCorrenteParaSaque.realizarSaque(valorDoSaque);
+			return "Retire seu dinheiro";
+		}
+	}
 }

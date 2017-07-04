@@ -20,4 +20,9 @@ public class ContaCorrente {
 	public Double getSaldo() {
 		return saldo;
 	}
+
+	public void realizarSaque(Double valorDoSaque) {
+		this.saldo -= valorDoSaque;
+		
+	}
 }
