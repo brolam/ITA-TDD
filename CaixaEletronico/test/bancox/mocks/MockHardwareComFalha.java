@@ -27,5 +27,11 @@ public class MockHardwareComFalha implements Hardware {
 			throw new HardwareExceptions.LerEnvelopeException();
 		return;
 	}
+
+	@Override
+	public void entregarDinheiro() {
+		// TODO Auto-generated method stub
+		
+	}
 	
 }

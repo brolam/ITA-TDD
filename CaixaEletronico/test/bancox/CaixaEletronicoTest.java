@@ -72,7 +72,7 @@ public class CaixaEletronicoTest {
 	}
 	
 	@Test
-	public void whenDepositar1000RaisLendoCartaoLendoEnveloperComSucesso() throws HardwareExceptions{
+	public void whenDepositar1000RaisLendoCartaoLendoEnveloperComSucesso(){
 		CaixaEletronico caixaEletronico = new CaixaEletronico(this.mockServicoRemoto, this.mockHardware);
 		this.mockServicoRemoto.setContaCorrenteCadastrada("2001700001");
 		this.mockHardware.setContaCorrenteCadastrada("2001700001");
@@ -159,6 +159,12 @@ public class CaixaEletronicoTest {
 		assertEquals("Este terminal está indisponível!", caixaEletronico.sacar(500.00));
 	}
 	
-	
+	@Test
+	public void whenSacar500ReaisLendoCartaoEntregandoDinheiroComSucesso(){
+		whenDepositar1000RaisLendoCartaoLendoEnveloperComSucesso();
+		CaixaEletronico caixaEletronico = new CaixaEletronico(this.mockServicoRemoto, this.mockHardware);
+		assertEquals("Retire seu dinheiro", caixaEletronico.sacar(500.00));
+		
+	}
 	
 }

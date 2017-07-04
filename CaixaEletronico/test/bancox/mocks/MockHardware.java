@@ -19,4 +19,10 @@ public class MockHardware implements Hardware {
 	public void LerEnvelope() throws HardwareExceptions.LerEnvelopeException {
 	}
 
+	@Override
+	public void entregarDinheiro() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

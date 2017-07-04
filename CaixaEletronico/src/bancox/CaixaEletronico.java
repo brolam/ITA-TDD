@@ -103,7 +103,17 @@ public class CaixaEletronico {
 		}
 	}
 
-	public Object sacar(double valorDoSaque) {
+	public String sacar(double valorDoSaque) {
+		if (isHardwareOnLine()) {
+			try {
+				String numeroDaContaLidoNoCartao = hardware.pegarNumeroDaContaCartao();
+				String mensagemSaqueComSucesso = this.sacar(numeroDaContaLidoNoCartao, valorDoSaque);
+				hardware.entregarDinheiro();
+				return mensagemSaqueComSucesso;
+			} catch (HardwareExceptions e) {
+				return null;
+			}
+		}
 		return MSG_HARDWARE_INDISPONIVEL;
 	}
 }
