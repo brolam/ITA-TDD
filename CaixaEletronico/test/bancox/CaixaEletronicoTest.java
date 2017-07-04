@@ -167,4 +167,11 @@ public class CaixaEletronicoTest {
 		
 	}
 	
+	@Test
+	public void whenSacar500ReaisLendoCartaoComFalha(){
+		MockHardwareComFalha mockHardwareComFalha = new MockHardwareComFalha(ConfigurarFalha.LER_CARTAO);
+		CaixaEletronico caixaEletronico = new CaixaEletronico(this.mockServicoRemoto, mockHardwareComFalha);
+		assertEquals("Erro na leitura do cartão!", caixaEletronico.sacar(500.00));
+	}
+	
 }

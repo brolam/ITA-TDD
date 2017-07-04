@@ -110,6 +110,8 @@ public class CaixaEletronico {
 				String mensagemSaqueComSucesso = this.sacar(numeroDaContaLidoNoCartao, valorDoSaque);
 				hardware.entregarDinheiro();
 				return mensagemSaqueComSucesso;
+			} catch( LerCartaoException e){
+				return e.getMessage();
 			} catch (HardwareExceptions e) {
 				return null;
 			}
