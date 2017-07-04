@@ -1,6 +1,7 @@
 package bancox.mocks;
 
 import bancox.Hardware;
+import bancox.HardwareExceptions;
 
 public class MockHardware implements Hardware {
 	String numeroCadastrado;
@@ -12,6 +13,10 @@ public class MockHardware implements Hardware {
 
 	public void setContaCorrenteCadastrada(String numeroDaContaCorrente) {
 		this.numeroCadastrado = numeroDaContaCorrente;
+	}
+
+	@Override
+	public void LerEnvelope() throws HardwareExceptions.LerEnvelopeException {
 	}
 
 }

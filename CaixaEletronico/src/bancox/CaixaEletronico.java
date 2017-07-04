@@ -1,5 +1,8 @@
 package bancox;
 
+import bancox.HardwareExceptions.LerCartaoException;
+import bancox.HardwareExceptions.LerEnvelopeException;
+
 public class CaixaEletronico {
 	private static String MSG_HARDWARE_INDISPONIVEL = "Este terminal está indisponível!"; 
 	private ServicoRemoto servicoRemoto;
@@ -22,10 +25,14 @@ public class CaixaEletronico {
 			return "Usuário Autenticado";
 	}
 
-	public String logar() throws HardwareExceptions {
-		if ( isHardwareOnLine()){
-			String numeroDaContaCorrente = hardware.pegarNumeroDaContaCartao();
-			return logar(numeroDaContaCorrente);
+	public String logar() {
+		if (isHardwareOnLine()) {
+			try {
+				String numeroDaContaCorrente = hardware.pegarNumeroDaContaCartao();
+				return logar(numeroDaContaCorrente);
+			} catch (LerCartaoException e) {
+				return e.getMessage();
+			}
 		}
 		return MSG_HARDWARE_INDISPONIVEL;
 	}
@@ -41,14 +48,23 @@ public class CaixaEletronico {
 		else{
 			contaCorrenteParaDeposito.adicionarSaldo(valorDepositado);
 			this.servicoRemoto.persistirConta(contaCorrenteParaDeposito);
-			return "Depósito recebido com sucesso";
+			return "Depósito recebido com sucesso!";
 		}
 	}
 
-	public String depositar(double valorDepositado) throws HardwareExceptions {
-		if ( isHardwareOnLine()){
-			String numeroDaContaLidoNoCartao = hardware.pegarNumeroDaContaCartao();
-			return this.depositar(numeroDaContaLidoNoCartao, valorDepositado);
+	public String depositar(double valorDepositado) {
+		if (isHardwareOnLine()) {
+			String numeroDaContaLidoNoCartao;
+			try {
+				numeroDaContaLidoNoCartao = hardware.pegarNumeroDaContaCartao();
+				hardware.LerEnvelope();
+				return this.depositar(numeroDaContaLidoNoCartao, valorDepositado);
+			} catch (LerCartaoException e) {
+				return e.getMessage();
+			} catch (LerEnvelopeException e) {
+				return e.getMessage();
+			}
+			
 		}
 		return MSG_HARDWARE_INDISPONIVEL;
 	}
@@ -63,10 +79,14 @@ public class CaixaEletronico {
 		}
 	}
 
-	public String saldo() throws HardwareExceptions {
-		if ( isHardwareOnLine()){
-			String numeroDaContaLidoNoCartao = hardware.pegarNumeroDaContaCartao();
-			return this.saldo(numeroDaContaLidoNoCartao);
+	public String saldo() {
+		if (isHardwareOnLine()) {
+			try {
+				String numeroDaContaLidoNoCartao = hardware.pegarNumeroDaContaCartao();
+				return this.saldo(numeroDaContaLidoNoCartao);
+			} catch (LerCartaoException e) {
+				return e.getMessage();
+			}
 		}
 		return MSG_HARDWARE_INDISPONIVEL;
 	}

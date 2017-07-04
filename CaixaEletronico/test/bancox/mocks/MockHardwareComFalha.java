@@ -5,7 +5,7 @@ import bancox.HardwareExceptions;
 
 public class MockHardwareComFalha implements Hardware {
 	public enum ConfigurarFalha{
-		LER_CARTAO,
+		LER_CARTAO, LER_ENVELOPE,
 	}
 	
 	ConfigurarFalha configurarFalha;
@@ -15,15 +15,17 @@ public class MockHardwareComFalha implements Hardware {
 	}
 
 	@Override
-	public String pegarNumeroDaContaCartao() throws HardwareExceptions {
-		lancarExceptionConfigurada();
+	public String pegarNumeroDaContaCartao() throws HardwareExceptions.LerCartaoException {
+		if ( this.configurarFalha == ConfigurarFalha.LER_CARTAO)
+			throw new HardwareExceptions.LerCartaoException();
 		return null;
 	}
 	
-	private void lancarExceptionConfigurada() throws HardwareExceptions{
-		switch (this.configurarFalha) {
-		case LER_CARTAO:
-			throw new HardwareExceptions.LerCartaoException();
-		}			
+	@Override
+	public void LerEnvelope() throws HardwareExceptions.LerEnvelopeException {
+		if ( this.configurarFalha == ConfigurarFalha.LER_ENVELOPE)
+			throw new HardwareExceptions.LerEnvelopeException();
+		return;
 	}
+	
 }

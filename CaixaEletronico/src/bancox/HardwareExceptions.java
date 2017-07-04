@@ -16,5 +16,13 @@ public abstract class HardwareExceptions extends Exception {
 
 	}
 	
+	public static class LerEnvelopeException extends HardwareExceptions{
+		private static final long serialVersionUID = 1L;
+		
+		public LerEnvelopeException() {
+			super("Erro na leitura do envelope!");
+		}
+
+	}
 
 }

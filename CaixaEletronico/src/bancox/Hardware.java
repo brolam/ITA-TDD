@@ -1,6 +1,6 @@
 package bancox;
 
 public interface Hardware {
-	String pegarNumeroDaContaCartao() throws HardwareExceptions;
-
+	String pegarNumeroDaContaCartao() throws HardwareExceptions.LerCartaoException;
+	void LerEnvelope() throws HardwareExceptions.LerEnvelopeException;
 }
