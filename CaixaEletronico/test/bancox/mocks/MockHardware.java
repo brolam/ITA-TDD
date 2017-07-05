@@ -9,7 +9,7 @@ public class MockHardware implements Hardware {
 		WHEN_LER_CARTAO, WHEN_LER_ENVELOPE, WHEN_ENTREGAR_DINHEIRO,
 	}
 	SimularFalha simularFalha;
-	String numeroCadastrado;
+	String numeroDaContaCorrenteNoCartao;
 
 	public void setSimularFalha(SimularFalha simularFalha) {
 		this.simularFalha = simularFalha;
@@ -19,11 +19,11 @@ public class MockHardware implements Hardware {
 	public String pegarNumeroDaContaCartao() throws LerCartaoException {
 		if ( this.simularFalha == SimularFalha.WHEN_LER_CARTAO)
 			throw new HardwareExceptions.LerCartaoException();
-		return numeroCadastrado;
+		return numeroDaContaCorrenteNoCartao;
 	}
 
-	public void setContaCorrenteCadastrada(String numeroDaContaCorrente) {
-		this.numeroCadastrado = numeroDaContaCorrente;
+	public void inseriCartao(String numeroDaContaCorrente) {
+		this.numeroDaContaCorrenteNoCartao = numeroDaContaCorrente;
 	}
 
 	@Override

@@ -37,7 +37,7 @@ public class CaixaEletronicoTest {
 	public void whenLogarLendoCartaoComSucesso() throws HardwareExceptions {
 		CaixaEletronico caixaEletronico = new CaixaEletronico(this.mockServicoRemoto, this.mockHardware);
 		this.mockServicoRemoto.setContaCorrenteCadastrada("2001700001");
-		this.mockHardware.setContaCorrenteCadastrada("2001700001");
+		this.mockHardware.inseriCartao("2001700001");
 		assertEquals("Usuário Autenticado", caixaEletronico.logar());
 
 	}
@@ -74,7 +74,7 @@ public class CaixaEletronicoTest {
 	public void whenDepositar1000RaisLendoCartaoLendoEnveloperComSucesso() {
 		CaixaEletronico caixaEletronico = new CaixaEletronico(this.mockServicoRemoto, this.mockHardware);
 		this.mockServicoRemoto.setContaCorrenteCadastrada("2001700001");
-		this.mockHardware.setContaCorrenteCadastrada("2001700001");
+		this.mockHardware.inseriCartao("2001700001");
 		assertEquals("Depósito recebido com sucesso!", caixaEletronico.depositar(1000.00));
 	}
 
