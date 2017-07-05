@@ -2,6 +2,7 @@ package bancox.mocks;
 
 import bancox.Hardware;
 import bancox.HardwareExceptions;
+import bancox.HardwareExceptions.LerCartaoException;
 
 public class MockHardware implements Hardware {
 	public enum SimularFalha{
@@ -15,7 +16,9 @@ public class MockHardware implements Hardware {
 	}
 		
 	@Override
-	public String pegarNumeroDaContaCartao() {
+	public String pegarNumeroDaContaCartao() throws LerCartaoException {
+		if ( this.simularFalha == SimularFalha.WHEN_LER_CARTAO)
+			throw new HardwareExceptions.LerCartaoException();
 		return numeroCadastrado;
 	}
 
@@ -25,6 +28,8 @@ public class MockHardware implements Hardware {
 
 	@Override
 	public void LerEnvelope() throws HardwareExceptions.LerEnvelopeException {
+		if ( this.simularFalha == SimularFalha.WHEN_LER_ENVELOPE)
+			throw new HardwareExceptions.LerEnvelopeException();
 	}
 
 	@Override

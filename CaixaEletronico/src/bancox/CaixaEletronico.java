@@ -55,9 +55,8 @@ public class CaixaEletronico {
 
 	public String depositar(double valorDepositado) {
 		if (isHardwareOnLine()) {
-			String numeroDaContaLidoNoCartao;
 			try {
-				numeroDaContaLidoNoCartao = hardware.pegarNumeroDaContaCartao();
+				String numeroDaContaLidoNoCartao = hardware.pegarNumeroDaContaCartao();
 				hardware.LerEnvelope();
 				return this.depositar(numeroDaContaLidoNoCartao, valorDepositado);
 			} catch (LerCartaoException e) {
@@ -71,11 +70,11 @@ public class CaixaEletronico {
 	}
 
 	public String saldo(String numeroDaContaCorrente) {
-		ContaCorrente contaCorrenteRecuperada = servicoRemoto.recuperarConta(numeroDaContaCorrente);
-		if (contaCorrenteRecuperada == null)
+		ContaCorrente contaCorrenteConsultaSaldo = servicoRemoto.recuperarConta(numeroDaContaCorrente);
+		if (contaCorrenteConsultaSaldo == null)
 			return "Não foi possível consultar o Saldo!";
 		else{
-			String mensagemSaldo = String.format("O saldo é R$%.2f", contaCorrenteRecuperada.getSaldo());
+			String mensagemSaldo = String.format("O saldo é R$%.2f", contaCorrenteConsultaSaldo.getSaldo());
 			return mensagemSaldo;
 		}
 	}
@@ -103,17 +102,23 @@ public class CaixaEletronico {
 			return "Saldo insuficiente";
 		}
 	}
+	
+	private void cancelarSaque(String numeroDaContaCorrente, double valorDoSaque) {
+		this.depositar(numeroDaContaCorrente, valorDoSaque);
+	}
 
 	public String sacar(double valorDoSaque) {
+		String numeroDaContaLidoNoCartao = null;
 		if (isHardwareOnLine()) {
 			try {
-				String numeroDaContaLidoNoCartao = hardware.pegarNumeroDaContaCartao();
-				String mensagemSaqueComSucesso = this.sacar(numeroDaContaLidoNoCartao, valorDoSaque);
+				numeroDaContaLidoNoCartao = hardware.pegarNumeroDaContaCartao();
+				String mensagemDeConfirmacaoOuFalhaDoSaque = this.sacar(numeroDaContaLidoNoCartao, valorDoSaque);
 				hardware.entregarDinheiro();
-				return mensagemSaqueComSucesso;
+				return mensagemDeConfirmacaoOuFalhaDoSaque;
 			} catch( LerCartaoException e){
 				return e.getMessage();
 			} catch (EntregarDinheiroException e) {
+				this.cancelarSaque(numeroDaContaLidoNoCartao, valorDoSaque);
 				return e.getMessage();
 			}
 		}

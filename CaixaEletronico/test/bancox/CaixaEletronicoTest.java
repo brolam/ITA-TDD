@@ -7,16 +7,14 @@ import org.junit.Test;
 
 import bancox.mocks.MockHardware;
 import static bancox.mocks.MockHardware.SimularFalha.*;
-import bancox.mocks.MockHardwareComFalha;
-import bancox.mocks.MockHardwareComFalha.ConfigurarFalha;
 import bancox.mocks.MockServicoRemoto;
 
 public class CaixaEletronicoTest {
 	MockServicoRemoto mockServicoRemoto;
 	MockHardware mockHardware;
-	
+
 	@Before
-	public void iniciarMocks(){
+	public void iniciarMocks() {
 		this.mockServicoRemoto = new MockServicoRemoto();
 		this.mockHardware = new MockHardware();
 	}
@@ -27,160 +25,161 @@ public class CaixaEletronicoTest {
 		CaixaEletronico caixaEletronico = new CaixaEletronico(this.mockServicoRemoto);
 		assertEquals("Usuário Autenticado", caixaEletronico.logar("2001700001"));
 	}
-	
+
 	@Test
 	public void whenLogarComFalha() {
 		this.mockServicoRemoto.setContaCorrenteCadastrada("2001700001");
 		CaixaEletronico caixaEletronico = new CaixaEletronico(this.mockServicoRemoto);
 		assertEquals("Não foi possível autenticar o usuário", caixaEletronico.logar("2001700002"));
 	}
-	
+
 	@Test
-	public void whenLogarLendoCartaoComSucesso() throws HardwareExceptions{
-		CaixaEletronico caixaEletronico = new CaixaEletronico(this.mockServicoRemoto, this.mockHardware);		
+	public void whenLogarLendoCartaoComSucesso() throws HardwareExceptions {
+		CaixaEletronico caixaEletronico = new CaixaEletronico(this.mockServicoRemoto, this.mockHardware);
 		this.mockServicoRemoto.setContaCorrenteCadastrada("2001700001");
 		this.mockHardware.setContaCorrenteCadastrada("2001700001");
 		assertEquals("Usuário Autenticado", caixaEletronico.logar());
-		
+
 	}
-	
+
 	@Test
-	public void whenLogarLendoCartaoComFalha() throws HardwareExceptions{
-		MockHardwareComFalha mockHardwareComFalha = new MockHardwareComFalha(ConfigurarFalha.LER_CARTAO);
-		CaixaEletronico caixaEletronico = new CaixaEletronico(this.mockServicoRemoto, mockHardwareComFalha);
+	public void whenLogarLendoCartaoComFalha() throws HardwareExceptions {
+		CaixaEletronico caixaEletronico = new CaixaEletronico(this.mockServicoRemoto, this.mockHardware);
+		this.mockHardware.setSimularFalha(WHEN_LER_CARTAO);
 		assertEquals("Erro na leitura do cartão!", caixaEletronico.logar());
 	}
-	
+
 	@Test
-	public void whenLogarLendoCartaoComHardwareOffLine() throws HardwareExceptions{
-		CaixaEletronico caixaEletronico = new CaixaEletronico(this.mockServicoRemoto);		
+	public void whenLogarLendoCartaoComHardwareOffLine() throws HardwareExceptions {
+		CaixaEletronico caixaEletronico = new CaixaEletronico(this.mockServicoRemoto);
 		mockServicoRemoto.setContaCorrenteCadastrada("2001700001");
 		assertEquals("Este terminal está indisponível!", caixaEletronico.logar());
 	}
-	
+
 	@Test
-	public void whenDepositar1000ReaisComSucesso(){
+	public void whenDepositar1000ReaisComSucesso() {
 		CaixaEletronico caixaEletronico = new CaixaEletronico(this.mockServicoRemoto);
 		mockServicoRemoto.setContaCorrenteCadastrada("2001700001");
 		assertEquals("Depósito recebido com sucesso!", caixaEletronico.depositar("2001700001", 1000.00));
 	}
-	
+
 	@Test
-	public void whenDepositar1000ReaisComFalha(){
+	public void whenDepositar1000ReaisComFalha() {
 		CaixaEletronico caixaEletronico = new CaixaEletronico(this.mockServicoRemoto);
 		mockServicoRemoto.setContaCorrenteCadastrada("2001700001");
 		assertEquals("Depósito não foi realizado!", caixaEletronico.depositar("2001700002", 1000.00));
 	}
-	
+
 	@Test
-	public void whenDepositar1000RaisLendoCartaoLendoEnveloperComSucesso(){
+	public void whenDepositar1000RaisLendoCartaoLendoEnveloperComSucesso() {
 		CaixaEletronico caixaEletronico = new CaixaEletronico(this.mockServicoRemoto, this.mockHardware);
 		this.mockServicoRemoto.setContaCorrenteCadastrada("2001700001");
 		this.mockHardware.setContaCorrenteCadastrada("2001700001");
 		assertEquals("Depósito recebido com sucesso!", caixaEletronico.depositar(1000.00));
 	}
-	
+
 	@Test
-	public void whenDepositarComHardwareOffLine() throws HardwareExceptions{
+	public void whenDepositarComHardwareOffLine() throws HardwareExceptions {
 		CaixaEletronico caixaEletronico = new CaixaEletronico(this.mockServicoRemoto);
 		this.mockServicoRemoto.setContaCorrenteCadastrada("2001700001");
 		assertEquals("Este terminal está indisponível!", caixaEletronico.depositar(1000.00));
 	}
-	
+
 	@Test
-	public void whenDepositarLendoCartaoComFalha(){
-		MockHardwareComFalha mockHardwareComFalha = new MockHardwareComFalha(ConfigurarFalha.LER_CARTAO);
-		CaixaEletronico caixaEletronico = new CaixaEletronico(this.mockServicoRemoto, mockHardwareComFalha);
+	public void whenDepositarLendoCartaoComFalha() {
+		CaixaEletronico caixaEletronico = new CaixaEletronico(this.mockServicoRemoto, this.mockHardware);
+		this.mockHardware.setSimularFalha(WHEN_LER_CARTAO);
 		assertEquals("Erro na leitura do cartão!", caixaEletronico.depositar(1000.00));
 	}
-	
+
 	@Test
-	public void whenDepositarLendoEnvelopeComFalha(){
-		MockHardwareComFalha mockHardwareComFalha = new MockHardwareComFalha(ConfigurarFalha.LER_ENVELOPE);
-		CaixaEletronico caixaEletronico = new CaixaEletronico(this.mockServicoRemoto, mockHardwareComFalha);
+	public void whenDepositarLendoEnvelopeComFalha() {
+		CaixaEletronico caixaEletronico = new CaixaEletronico(this.mockServicoRemoto, this.mockHardware);
+		this.mockHardware.setSimularFalha(WHEN_LER_ENVELOPE);
 		assertEquals("Erro na leitura do envelope!", caixaEletronico.depositar(1000.00));
 	}
-		
+
 	@Test
-	public void whenConsultarSaldoComSucesso(){
+	public void whenConsultarSaldoComSucesso() {
 		this.whenDepositar1000ReaisComSucesso();
 		CaixaEletronico caixaEletronico = new CaixaEletronico(this.mockServicoRemoto);
 		assertEquals("O saldo é R$1000,00", caixaEletronico.saldo("2001700001"));
 	}
-	
+
 	@Test
-	public void whenConsultarSaldoComFalha(){
+	public void whenConsultarSaldoComFalha() {
 		this.whenDepositar1000ReaisComSucesso();
 		CaixaEletronico caixaEletronico = new CaixaEletronico(this.mockServicoRemoto);
 		assertEquals("Não foi possível consultar o Saldo!", caixaEletronico.saldo("2001700002"));
 	}
-	
+
 	@Test
-	public void whenConsultarSaldoLendoCartaoComSucesso() throws HardwareExceptions{
+	public void whenConsultarSaldoLendoCartaoComSucesso() throws HardwareExceptions {
 		whenDepositar1000RaisLendoCartaoLendoEnveloperComSucesso();
 		CaixaEletronico caixaEletronico = new CaixaEletronico(this.mockServicoRemoto, this.mockHardware);
 		assertEquals("O saldo é R$1000,00", caixaEletronico.saldo());
 	}
-	
+
 	@Test
-	public void whenConsultarSaldoLendoCartaoComFalha() throws HardwareExceptions{
-		MockHardwareComFalha mockHardwareComFalha = new MockHardwareComFalha(ConfigurarFalha.LER_CARTAO);
-		CaixaEletronico caixaEletronico = new CaixaEletronico(this.mockServicoRemoto, mockHardwareComFalha);
+	public void whenConsultarSaldoLendoCartaoComFalha() throws HardwareExceptions {
+		CaixaEletronico caixaEletronico = new CaixaEletronico(this.mockServicoRemoto, this.mockHardware);
+		this.mockHardware.setSimularFalha(WHEN_LER_CARTAO);
 		assertEquals("Erro na leitura do cartão!", caixaEletronico.saldo());
 	}
-	
+
 	@Test
-	public void whenSacar500ReaisComSucesso(){
+	public void whenSacar500ReaisComSucesso() {
 		whenDepositar1000ReaisComSucesso();
 		CaixaEletronico caixaEletronico = new CaixaEletronico(this.mockServicoRemoto);
 		assertEquals("Retire seu dinheiro", caixaEletronico.sacar("2001700001", 500.00));
 		assertEquals("O saldo é R$500,00", caixaEletronico.saldo("2001700001"));
 	}
-	
+
 	@Test
-	public void whenSacar500ReaisComFalha(){
+	public void whenSacar500ReaisComFalha() {
 		whenDepositar1000ReaisComSucesso();
 		CaixaEletronico caixaEletronico = new CaixaEletronico(this.mockServicoRemoto);
 		assertEquals("Saque não foi realizado!", caixaEletronico.sacar("2001700002", 500.00));
 		assertEquals("O saldo é R$1000,00", caixaEletronico.saldo("2001700001"));
 	}
-	
+
 	@Test
-	public void whenSacar500ReaisComSaldoInsuficiente(){
+	public void whenSacar500ReaisComSaldoInsuficiente() {
 		CaixaEletronico caixaEletronico = new CaixaEletronico(this.mockServicoRemoto);
 		this.mockServicoRemoto.setContaCorrenteCadastrada("2001700001");
 		assertEquals("Saldo insuficiente", caixaEletronico.sacar("2001700001", 500.00));
 		assertEquals("O saldo é R$0,00", caixaEletronico.saldo("2001700001"));
 	}
-	
+
 	@Test
-	public void whenSacar500ReaisComHardwareOffLine(){
+	public void whenSacar500ReaisComHardwareOffLine() {
 		CaixaEletronico caixaEletronico = new CaixaEletronico(this.mockServicoRemoto);
 		this.mockServicoRemoto.setContaCorrenteCadastrada("2001700001");
 		assertEquals("Este terminal está indisponível!", caixaEletronico.sacar(500.00));
 	}
-	
+
 	@Test
-	public void whenSacar500ReaisLendoCartaoEntregandoDinheiroComSucesso(){
+	public void whenSacar500ReaisLendoCartaoEntregandoDinheiroComSucesso() {
 		whenDepositar1000RaisLendoCartaoLendoEnveloperComSucesso();
 		CaixaEletronico caixaEletronico = new CaixaEletronico(this.mockServicoRemoto, this.mockHardware);
 		assertEquals("Retire seu dinheiro", caixaEletronico.sacar(500.00));
-		
+
 	}
-	
+
 	@Test
-	public void whenSacar500ReaisLendoCartaoComFalha(){
-		MockHardwareComFalha mockHardwareComFalha = new MockHardwareComFalha(ConfigurarFalha.LER_CARTAO);
-		CaixaEletronico caixaEletronico = new CaixaEletronico(this.mockServicoRemoto, mockHardwareComFalha);
+	public void whenSacar500ReaisLendoCartaoComFalha() {
+		CaixaEletronico caixaEletronico = new CaixaEletronico(this.mockServicoRemoto, this.mockHardware);
+		this.mockHardware.setSimularFalha(WHEN_LER_CARTAO);
 		assertEquals("Erro na leitura do cartão!", caixaEletronico.sacar(500.00));
 	}
-	
+
 	@Test
-	public void whenSacar500ReaisEntregandoDinheiroComFalha(){
+	public void whenSacar500ReaisEntregandoDinheiroComFalha() {
 		whenDepositar1000RaisLendoCartaoLendoEnveloperComSucesso();
 		CaixaEletronico caixaEletronico = new CaixaEletronico(this.mockServicoRemoto, this.mockHardware);
 		this.mockHardware.setSimularFalha(WHEN_ENTREGAR_DINHEIRO);
 		assertEquals("Erro na entrega do dinheiro!", caixaEletronico.sacar(500.00));
+		assertEquals("O saldo é R$1000,00", caixaEletronico.saldo("2001700001"));
 	}
-	
+
 }
