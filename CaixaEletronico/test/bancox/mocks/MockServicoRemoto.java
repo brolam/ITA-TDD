@@ -6,6 +6,7 @@ import bancox.ServicoRemoto;
 
 public class MockServicoRemoto implements ServicoRemoto {
 	ContaCorrente contaCorrenteSimulado;
+	int contarPersistirConta = 0; 
 
 	public void setContaCorrenteCadastrada(String numeroDaContaCorrente) {
 		this.contaCorrenteSimulado = new ContaCorrente(numeroDaContaCorrente);
@@ -23,5 +24,10 @@ public class MockServicoRemoto implements ServicoRemoto {
 
 	@Override
 	public void persistirConta(ContaCorrente contaCorrente) {
+		contarPersistirConta++;
+	}
+	
+	public int getContarPersistirConta() {
+		return contarPersistirConta;
 	}
 }

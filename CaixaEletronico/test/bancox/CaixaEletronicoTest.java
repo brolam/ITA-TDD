@@ -61,6 +61,7 @@ public class CaixaEletronicoTest {
 		CaixaEletronico caixaEletronico = new CaixaEletronico(this.mockServicoRemoto);
 		mockServicoRemoto.setContaCorrenteCadastrada("2001700001");
 		assertEquals("Depósito recebido com sucesso!", caixaEletronico.depositar("2001700001", 1000.00));
+		assertEquals(1, this.mockServicoRemoto.getContarPersistirConta());
 	}
 
 	@Test
@@ -76,6 +77,7 @@ public class CaixaEletronicoTest {
 		this.mockServicoRemoto.setContaCorrenteCadastrada("2001700001");
 		this.mockHardware.inseriCartao("2001700001");
 		assertEquals("Depósito recebido com sucesso!", caixaEletronico.depositar(1000.00));
+		assertEquals(1, this.mockServicoRemoto.getContarPersistirConta());
 	}
 
 	@Test
@@ -133,6 +135,7 @@ public class CaixaEletronicoTest {
 		CaixaEletronico caixaEletronico = new CaixaEletronico(this.mockServicoRemoto);
 		assertEquals("Retire seu dinheiro", caixaEletronico.sacar("2001700001", 500.00));
 		assertEquals("O saldo é R$500,00", caixaEletronico.saldo("2001700001"));
+		assertEquals(2, this.mockServicoRemoto.getContarPersistirConta());
 	}
 
 	@Test
@@ -163,6 +166,7 @@ public class CaixaEletronicoTest {
 		whenDepositar1000RaisLendoCartaoLendoEnveloperComSucesso();
 		CaixaEletronico caixaEletronico = new CaixaEletronico(this.mockServicoRemoto, this.mockHardware);
 		assertEquals("Retire seu dinheiro", caixaEletronico.sacar(500.00));
+		assertEquals(2, this.mockServicoRemoto.getContarPersistirConta());
 
 	}
 

@@ -97,6 +97,7 @@ public class CaixaEletronico {
 			return "Saque não foi realizado!";
 		if (contaCorrenteParaSaque.isSaldoSuficienteParaSaque(valorDoSaque)) {
 			contaCorrenteParaSaque.realizarSaque(valorDoSaque);
+			this.servicoRemoto.persistirConta(contaCorrenteParaSaque);
 			return "Retire seu dinheiro";
 		} else {
 			return "Saldo insuficiente";
