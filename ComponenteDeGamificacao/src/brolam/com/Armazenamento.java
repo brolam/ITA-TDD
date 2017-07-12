@@ -9,24 +9,32 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 
 public class Armazenamento {
-	String repositorio = "Repositorio";
+	String nomeRepositorio;
+	File diretorioRepositorio;
+
+	public Armazenamento() {
+		this("Repositorio");
+	}
+
+	public Armazenamento(String nomeRepositorio) {
+		this.nomeRepositorio = nomeRepositorio;
+		this.diretorioRepositorio = new File(this.nomeRepositorio);
+		if (this.diretorioRepositorio.exists() == false)
+			this.diretorioRepositorio.mkdirs();
+	}
 
 	public void salvarPontuacaoDoUsuario(String usuario, String tipoDaPontuacao, int pontos) {
-		File diretorioRepositorio = new File(repositorio);
-		if (diretorioRepositorio.exists() == false)
-			diretorioRepositorio.mkdirs();
-		File arquivoUsuarioPontos = new File(
-				String.format("%s/%s_%s.pts", diretorioRepositorio.getAbsolutePath(), usuario, tipoDaPontuacao));
-		try (FileWriter escreverPontos = new FileWriter(arquivoUsuarioPontos)) {
+		File arquivoUsuarioPontuacao = recuperarUmArquivoDePontuacao(usuario, tipoDaPontuacao);
+		try (FileWriter escreverPontos = new FileWriter(arquivoUsuarioPontuacao)) {
 			escreverPontos.write(String.valueOf(pontos));
 			escreverPontos.flush();
 		} catch (IOException ex) {
-			ex.printStackTrace();
+			throw new RuntimeException(ex);
 		}
 	}
 
 	public int recuperarPontuacaoDoUsuario(String usuario, String tipoDaPontuacao) {
-		File diretorioRepositorio = new File(repositorio);
+		File diretorioRepositorio = new File(nomeRepositorio);
 		File arquivoUsuarioPontos = new File(
 				String.format("%s/%s_%s.pts", diretorioRepositorio.getAbsolutePath(), usuario, tipoDaPontuacao));
 		try (InputStream lerPontos = new FileInputStream(arquivoUsuarioPontos)) {
@@ -44,7 +52,7 @@ public class Armazenamento {
 	}
 
 	public String[] retornarUsuarios() {
-		File diretorioRepositorio = new File(repositorio);
+		File diretorioRepositorio = new File(nomeRepositorio);
 		SortedSet<String> listaTemporarioDeUsuarios = new TreeSet<String>();
 		for (File file : diretorioRepositorio.listFiles()) {
 			if (file.getName().contains(".pts")) {
@@ -58,7 +66,7 @@ public class Armazenamento {
 	}
 
 	public String[] retornarTiposDePontuacao() {
-		File diretorioRepositorio = new File(repositorio);
+		File diretorioRepositorio = new File(nomeRepositorio);
 		SortedSet<String> listaTemporarioTiposDePonto = new TreeSet<String>();
 		for (File file : diretorioRepositorio.listFiles()) {
 			if (file.getName().contains(".pts")) {
@@ -69,6 +77,12 @@ public class Armazenamento {
 		String[] tiposDePontoRecuperados = new String[listaTemporarioTiposDePonto.size()];
 		listaTemporarioTiposDePonto.toArray(tiposDePontoRecuperados);
 		return tiposDePontoRecuperados;
+	}
+
+	private File recuperarUmArquivoDePontuacao(String usuario, String tipoDaPontuacao) {
+		String enderecoDoRepositorio = this.diretorioRepositorio.getAbsolutePath();
+		String nomeDoArquivoPontuacao = String.format("%s/%s_%s.pts", enderecoDoRepositorio , usuario, tipoDaPontuacao);
+		return new File(nomeDoArquivoPontuacao);
 	}
 
 }
