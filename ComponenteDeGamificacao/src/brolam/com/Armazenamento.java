@@ -34,21 +34,18 @@ public class Armazenamento {
 	}
 
 	public int recuperarPontuacaoDoUsuario(String usuario, String tipoDaPontuacao) {
-		File diretorioRepositorio = new File(nomeRepositorio);
-		File arquivoUsuarioPontos = new File(
-				String.format("%s/%s_%s.pts", diretorioRepositorio.getAbsolutePath(), usuario, tipoDaPontuacao));
-		try (InputStream lerPontos = new FileInputStream(arquivoUsuarioPontos)) {
-			int content;
-			StringBuilder conteudoDoArquivo = new StringBuilder();
-			while ((content = lerPontos.read()) != -1) {
-				conteudoDoArquivo.append((char) content);
+		File arquivoUsuarioPontuacao = recuperarUmArquivoDePontuacao(usuario, tipoDaPontuacao);
+		try (InputStream lerConteudoDoArquivo = new FileInputStream(arquivoUsuarioPontuacao)) {
+			int caracter;
+			StringBuilder conteudoArquivoDePontuacao = new StringBuilder();
+			while ((caracter = lerConteudoDoArquivo.read()) != -1) {
+				conteudoArquivoDePontuacao.append((char) caracter);
 			}
-			lerPontos.close();
-			return Integer.valueOf(conteudoDoArquivo.toString());
+			lerConteudoDoArquivo.close();
+			return Integer.valueOf(conteudoArquivoDePontuacao.toString());
 		} catch (IOException ex) {
-			ex.printStackTrace();
+			throw new RuntimeException(ex);
 		}
-		return 0;
 	}
 
 	public String[] retornarUsuarios() {
