@@ -43,7 +43,7 @@ public class Armazenamento {
 		return 0;
 	}
 
-	public String[] RetornarUsuarios() {
+	public String[] retornarUsuarios() {
 		File diretorioRepositorio = new File(repositorio);
 		SortedSet<String> listaTemporarioDeUsuarios = new TreeSet<String>();
 		for (File file : diretorioRepositorio.listFiles()) {
@@ -55,6 +55,20 @@ public class Armazenamento {
 		String[] usuariosRecuperados = new String[listaTemporarioDeUsuarios.size()];
 		listaTemporarioDeUsuarios.toArray(usuariosRecuperados);
 		return usuariosRecuperados;
+	}
+
+	public String[] retornarTiposDePontuacao() {
+		File diretorioRepositorio = new File(repositorio);
+		SortedSet<String> listaTemporarioTiposDePonto = new TreeSet<String>();
+		for (File file : diretorioRepositorio.listFiles()) {
+			if (file.getName().contains(".pts")) {
+				String tiposDePonto = file.getName().split("_")[1].replace(".pts", "");
+				listaTemporarioTiposDePonto.add(tiposDePonto);
+			}
+		}
+		String[] tiposDePontoRecuperados = new String[listaTemporarioTiposDePonto.size()];
+		listaTemporarioTiposDePonto.toArray(tiposDePontoRecuperados);
+		return tiposDePontoRecuperados;
 	}
 
 }
