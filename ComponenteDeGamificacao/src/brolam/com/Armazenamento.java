@@ -9,6 +9,7 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 
 public class Armazenamento {
+	private static final String EXTENSAO_ARQUIVO_DE_PONTUACAO = ".pts";
 	String nomeRepositorio;
 	File diretorioRepositorio;
 
@@ -52,9 +53,8 @@ public class Armazenamento {
 		File diretorioRepositorio = new File(nomeRepositorio);
 		SortedSet<String> listaTemporarioDeUsuarios = new TreeSet<String>();
 		for (File file : diretorioRepositorio.listFiles()) {
-			if (file.getName().contains(".pts")) {
-				String nomeUsuario = file.getName().split("_")[0];
-				listaTemporarioDeUsuarios.add(nomeUsuario);
+			if (isArquivoDePontuacao(file)) {
+				listaTemporarioDeUsuarios.add(getNomeUsuario(file));
 			}
 		}
 		String[] usuariosRecuperados = new String[listaTemporarioDeUsuarios.size()];
@@ -66,9 +66,8 @@ public class Armazenamento {
 		File diretorioRepositorio = new File(nomeRepositorio);
 		SortedSet<String> listaTemporarioTiposDePonto = new TreeSet<String>();
 		for (File file : diretorioRepositorio.listFiles()) {
-			if (file.getName().contains(".pts")) {
-				String tiposDePonto = file.getName().split("_")[1].replace(".pts", "");
-				listaTemporarioTiposDePonto.add(tiposDePonto);
+			if (isArquivoDePontuacao(file)) {
+				listaTemporarioTiposDePonto.add(getNomeTipoDePontuacao(file));
 			}
 		}
 		String[] tiposDePontoRecuperados = new String[listaTemporarioTiposDePonto.size()];
@@ -76,10 +75,22 @@ public class Armazenamento {
 		return tiposDePontoRecuperados;
 	}
 
+	private boolean isArquivoDePontuacao(File file) {
+		return file.getName().contains(EXTENSAO_ARQUIVO_DE_PONTUACAO);
+	}
+
+	private String getNomeUsuario(File file) {
+		return file.getName().split("_")[0];
+	}
+
+	private String getNomeTipoDePontuacao(File file) {
+		return file.getName().split("_")[1].replace(EXTENSAO_ARQUIVO_DE_PONTUACAO, "");
+	}
+
 	private File recuperarUmArquivoDePontuacao(String usuario, String tipoDaPontuacao) {
 		String enderecoDoRepositorio = this.diretorioRepositorio.getAbsolutePath();
-		String nomeDoArquivoPontuacao = String.format("%s/%s_%s.pts", enderecoDoRepositorio , usuario, tipoDaPontuacao);
-		return new File(nomeDoArquivoPontuacao);
+		String nomeDoArquivoPontuacao = String.format("%s/%s_%s", enderecoDoRepositorio, usuario, tipoDaPontuacao);
+		return new File(nomeDoArquivoPontuacao + EXTENSAO_ARQUIVO_DE_PONTUACAO);
 	}
 
 }
