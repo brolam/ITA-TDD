@@ -17,5 +17,14 @@ public class PlacarTest {
 		placar.registrarPontuacao(usuario, pontuacao);
 		assertTrue(armazenamentoMock.isPontuacaoRegistrada());
 	}
-
+	
+	@Test
+	public void retornarPontuacaoDoUsuario() {
+		ArmazenamentoMock armazenamentoMock = new ArmazenamentoMock();
+		Placar placar = new Placar(armazenamentoMock);
+		Pontuacao[] listDePontuacaoEsperada = new Pontuacao[] {new Pontuacao("estrela", 10), new Pontuacao("moeda", 25) };
+		armazenamentoMock.simularListaPontuacao(listDePontuacaoEsperada);
+		Usuario usuarioGuerra = new Usuario("guerra");
+		assertArrayEquals(listDePontuacaoEsperada, placar.retornarPontuacaoDoUsuario(usuarioGuerra));
+	}
 }
