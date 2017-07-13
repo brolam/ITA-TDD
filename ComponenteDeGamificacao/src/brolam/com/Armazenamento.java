@@ -8,7 +8,7 @@ import java.io.InputStream;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
-public class Armazenamento {
+public class Armazenamento implements Armazenavel {
 	private static final String EXTENSAO_ARQUIVO_DE_PONTUACAO = ".pts";
 	String nomeRepositorio;
 	File diretorioRepositorio;
@@ -24,6 +24,7 @@ public class Armazenamento {
 			this.diretorioRepositorio.mkdirs();
 	}
 
+	@Override
 	public void salvarPontuacaoDoUsuario(String usuario, String tipoDaPontuacao, int pontos) {
 		File arquivoUsuarioPontuacao = recuperarUmArquivoDePontuacao(usuario, tipoDaPontuacao);
 		try (FileWriter escreverPontos = new FileWriter(arquivoUsuarioPontuacao)) {
@@ -34,6 +35,7 @@ public class Armazenamento {
 		}
 	}
 
+	@Override
 	public int recuperarPontuacaoDoUsuario(String usuario, String tipoDaPontuacao) {
 		File arquivoUsuarioPontuacao = recuperarUmArquivoDePontuacao(usuario, tipoDaPontuacao);
 		try (InputStream lerConteudoDoArquivo = new FileInputStream(arquivoUsuarioPontuacao)) {
@@ -49,6 +51,7 @@ public class Armazenamento {
 		}
 	}
 
+	@Override
 	public String[] retornarUsuarios() {
 		File diretorioRepositorio = new File(nomeRepositorio);
 		SortedSet<String> listaTemporarioDeUsuarios = new TreeSet<String>();
@@ -62,6 +65,7 @@ public class Armazenamento {
 		return usuariosRecuperados;
 	}
 
+	@Override
 	public String[] retornarTiposDePontuacao() {
 		File diretorioRepositorio = new File(nomeRepositorio);
 		SortedSet<String> listaTemporarioTiposDePonto = new TreeSet<String>();
