@@ -21,7 +21,8 @@ public class Placar {
 		ArrayList<Pontuacao> listaTemporariaDePontuacao = new ArrayList<>();
 		for (String tipoDaPontuacao : listaTipoDePontuacao) {
 			int pontos = this.armazenavel.recuperarPontuacaoDoUsuario(usuario.getName(), tipoDaPontuacao);
-			listaTemporariaDePontuacao.add(new Pontuacao(tipoDaPontuacao, pontos));
+			if (pontos > 0)
+				listaTemporariaDePontuacao.add(new Pontuacao(tipoDaPontuacao, pontos));
 		}
 		Pontuacao[] listaDePontuacaoDoUsuario = new Pontuacao[listaTemporariaDePontuacao.size()];
 		listaTemporariaDePontuacao.toArray(listaDePontuacaoDoUsuario);
