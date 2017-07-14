@@ -1,6 +1,6 @@
 package brolam.com.models;
 
-public class Usuario {
+public class Usuario implements Comparable<Usuario> {
 	private String nome;
 
 	public Usuario(String nome) {
@@ -19,6 +19,11 @@ public class Usuario {
 	@Override
 	public boolean equals(Object obj) {
 		return this.toString().equals(obj.toString());
+	}
+
+	@Override
+	public int compareTo(Usuario usuario) {
+		return this.getName().compareTo(usuario.getName());
 	}
 
 }

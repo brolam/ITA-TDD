@@ -1,11 +1,23 @@
 package brolam.com.mocks;
 
 import brolam.com.Armazenavel;
-import brolam.com.models.Pontuacao;
 
 public class ArmazenamentoMock implements Armazenavel {
 	boolean pontuacaoRegistrada = false;
-	Pontuacao[] similuarListaDePontuacao = new Pontuacao[]{};
+
+	public enum Simuladores {
+		RetornarPontuacaoDoUsuario, SomentePontuacaoMaiorDoQueZero, RetornarUsuariosRanking
+	}
+
+	Simuladores simulador = null;
+
+	public void setSimulador(Simuladores simuladores) {
+		this.simulador = simuladores;
+	}
+	
+	public boolean isPontuacaoRegistrada() {
+		return this.pontuacaoRegistrada;
+	}
 
 	@Override
 	public void salvarPontuacaoDoUsuario(String usuario, String tipoDaPontuacao, int pontos) {
@@ -14,34 +26,57 @@ public class ArmazenamentoMock implements Armazenavel {
 
 	@Override
 	public int recuperarPontuacaoDoUsuario(String usuario, String tipoDaPontuacao) {
-		for(Pontuacao pontuacao: similuarListaDePontuacao){
-			if(pontuacao.getTipo() == tipoDaPontuacao)
-				return pontuacao.getPontos();
+		switch (this.simulador) {
+		case RetornarPontuacaoDoUsuario:
+			if (usuario != "guerra")
+				return 0;
+			if (tipoDaPontuacao == "estrela")
+				return 10;
+			if (tipoDaPontuacao == "moeda")
+				return 25;
+			if (tipoDaPontuacao == "energia")
+				return 0;
+		case SomentePontuacaoMaiorDoQueZero:
+			if (usuario != "guerra")
+				return 0;
+			if (tipoDaPontuacao == "estrela")
+				return 10;
+			if (tipoDaPontuacao == "energia")
+				return 0;
+		case RetornarUsuariosRanking:
+			if ((usuario == "rodrigo") && (tipoDaPontuacao == "estrela"))
+				return 17;
+			if ((usuario == "fernandes") && (tipoDaPontuacao == "estrela"))
+				return 19;
+			if ((usuario == "guerra") && (tipoDaPontuacao == "estrela"))
+				return 25;
+		default:
+			return 0;
 		}
-		return 0;
 	}
 
 	@Override
 	public String[] retornarUsuarios() {
-		// TODO Auto-generated method stub
-		return null;
+		switch (this.simulador) {
+		case RetornarUsuariosRanking:
+			return new String[] { "fernandes", "guerra", "rodrigo", };
+		default:
+			return new String[] {};
+		}
 	}
 
 	@Override
 	public String[] retornarTiposDePontuacao() {
-		String[] listaTipoDaPontuacao = new String[similuarListaDePontuacao.length];
-		for(int indexDaPontuacao = 0; indexDaPontuacao < listaTipoDaPontuacao.length; indexDaPontuacao++){
-			listaTipoDaPontuacao[indexDaPontuacao] = similuarListaDePontuacao[indexDaPontuacao].getTipo();
+		switch (this.simulador) {
+		case RetornarPontuacaoDoUsuario:
+			return new String[] { "estrela", "moeda" };
+		case SomentePontuacaoMaiorDoQueZero:
+			return new String[] { "energia", "estrela" };
+		case RetornarUsuariosRanking:
+			return new String[] { "estrela" };
+		default:
+			return new String[] {};
 		}
-		return listaTipoDaPontuacao;
-	}
-
-	public boolean isPontuacaoRegistrada() {
-		return this.pontuacaoRegistrada;
-	}
-
-	public void simularListaPontuacao(Pontuacao[] listDePontuacaoEsperada) {
-		this.similuarListaDePontuacao = listDePontuacaoEsperada;
 	}
 
 }

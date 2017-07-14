@@ -1,9 +1,10 @@
 package brolam.com;
 
 import java.util.ArrayList;
-
+import java.util.Arrays;
 import brolam.com.models.Pontuacao;
 import brolam.com.models.Usuario;
+import brolam.com.models.UsuarioRanking;
 
 public class Placar {
 	Armazenavel armazenavel;
@@ -27,6 +28,18 @@ public class Placar {
 		Pontuacao[] listaDePontuacaoDoUsuario = new Pontuacao[listaTemporariaDePontuacao.size()];
 		listaTemporariaDePontuacao.toArray(listaDePontuacaoDoUsuario);
 		return listaDePontuacaoDoUsuario;
+	}
+
+	public UsuarioRanking[] retornarUsuariosRanking(String tipoDaPontuacao) {
+		ArrayList<UsuarioRanking> listUsuarioRankingTemporaria = new ArrayList<>();
+		for(String usuarioNome: this.armazenavel.retornarUsuarios()){
+			int pontos = this.armazenavel.recuperarPontuacaoDoUsuario(usuarioNome, tipoDaPontuacao);
+			listUsuarioRankingTemporaria.add(new UsuarioRanking(new Usuario(usuarioNome), pontos));
+		}
+		UsuarioRanking[] listaUsuarioRanking = new UsuarioRanking[listUsuarioRankingTemporaria.size()];
+		listUsuarioRankingTemporaria.toArray(listaUsuarioRanking);
+		Arrays.sort(listaUsuarioRanking);
+		return listaUsuarioRanking;
 	}
 
 }
