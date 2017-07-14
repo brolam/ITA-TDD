@@ -37,10 +37,14 @@ public class Placar {
 			if ( pontos > 0 )
 				listUsuarioRankingTemporaria.add(new UsuarioRanking(new Usuario(usuarioNome), pontos));
 		}
-		UsuarioRanking[] listaUsuarioRanking = new UsuarioRanking[listUsuarioRankingTemporaria.size()];
-		listUsuarioRankingTemporaria.toArray(listaUsuarioRanking);
-		Arrays.sort(listaUsuarioRanking);
-		return listaUsuarioRanking;
+		return retornarRankinPorOrdemDePontosDecrescente(listUsuarioRankingTemporaria);
+	}
+
+	private UsuarioRanking[] retornarRankinPorOrdemDePontosDecrescente(ArrayList<UsuarioRanking> listaUsuarioRanking) {
+		UsuarioRanking[] listaUsuarioRankingPorOrdemDecrecente = new UsuarioRanking[listaUsuarioRanking.size()];
+		listaUsuarioRanking.toArray(listaUsuarioRankingPorOrdemDecrecente);
+		Arrays.sort(listaUsuarioRankingPorOrdemDecrecente);
+		return listaUsuarioRankingPorOrdemDecrecente;
 	}
 
 }

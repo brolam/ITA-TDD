@@ -29,8 +29,12 @@ public class UsuarioRanking implements Comparable<UsuarioRanking> {
 
 	@Override
 	public int compareTo(UsuarioRanking outroUsuarioRanking) {
-		String rankingDesseUsuario = String.format("%s:%s", this.getPontos(), this.getUsuario() );
+		String rankingEsseUsuario = String.format("%s:%s", this.getPontos(), this.getUsuario() );
 		String rankingOutroUsuario = String.format("%s:%s", outroUsuarioRanking.getPontos(), outroUsuarioRanking.getUsuario() );
+		return isOrdemDecrescente(rankingEsseUsuario, rankingOutroUsuario);
+	}
+
+	private int isOrdemDecrescente(String rankingDesseUsuario, String rankingOutroUsuario) {
 		return rankingOutroUsuario.compareTo(rankingDesseUsuario);
 	}
 
