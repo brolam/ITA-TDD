@@ -6,7 +6,7 @@ public class ArmazenamentoMock implements Armazenavel {
 	boolean pontuacaoRegistrada = false;
 
 	public enum Simuladores {
-		RetornarPontuacaoDoUsuario, SomentePontuacaoMaiorDoQueZero, RetornarUsuariosRanking
+		RetornarPontuacaoDoUsuario, SomentePontuacaoMaiorDoQueZero, RetornarUsuariosRanking , RankingSomenteUsuariosDoTipoDaPontuaoEspecificada
 	}
 
 	Simuladores simulador = null;
@@ -50,6 +50,11 @@ public class ArmazenamentoMock implements Armazenavel {
 				return 19;
 			if ((usuario == "guerra") && (tipoDaPontuacao == "estrela"))
 				return 25;
+		case RankingSomenteUsuariosDoTipoDaPontuaoEspecificada:
+			if ((usuario == "guerra") && (tipoDaPontuacao == "estrela"))
+				return 25;
+			if ((usuario == "toco") && (tipoDaPontuacao == "moeda"))
+				return 19;
 		default:
 			return 0;
 		}
@@ -60,6 +65,8 @@ public class ArmazenamentoMock implements Armazenavel {
 		switch (this.simulador) {
 		case RetornarUsuariosRanking:
 			return new String[] { "fernandes", "guerra", "rodrigo", };
+		case RankingSomenteUsuariosDoTipoDaPontuaoEspecificada:
+			return new String[] {"guerra", "toco", };
 		default:
 			return new String[] {};
 		}
@@ -74,6 +81,8 @@ public class ArmazenamentoMock implements Armazenavel {
 			return new String[] { "energia", "estrela" };
 		case RetornarUsuariosRanking:
 			return new String[] { "estrela" };
+		case RankingSomenteUsuariosDoTipoDaPontuaoEspecificada:
+			return new String[] { "estrela", "moeda" };
 		default:
 			return new String[] {};
 		}

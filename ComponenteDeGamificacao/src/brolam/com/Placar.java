@@ -34,7 +34,8 @@ public class Placar {
 		ArrayList<UsuarioRanking> listUsuarioRankingTemporaria = new ArrayList<>();
 		for(String usuarioNome: this.armazenavel.retornarUsuarios()){
 			int pontos = this.armazenavel.recuperarPontuacaoDoUsuario(usuarioNome, tipoDaPontuacao);
-			listUsuarioRankingTemporaria.add(new UsuarioRanking(new Usuario(usuarioNome), pontos));
+			if ( pontos > 0 )
+				listUsuarioRankingTemporaria.add(new UsuarioRanking(new Usuario(usuarioNome), pontos));
 		}
 		UsuarioRanking[] listaUsuarioRanking = new UsuarioRanking[listUsuarioRankingTemporaria.size()];
 		listUsuarioRankingTemporaria.toArray(listaUsuarioRanking);

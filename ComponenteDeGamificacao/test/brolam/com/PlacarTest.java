@@ -52,5 +52,15 @@ public class PlacarTest {
 		assertEquals(new UsuarioRanking(new Usuario("fernandes"), 19), usuariosRankingEstrela[1]);
 		assertEquals(new UsuarioRanking(new Usuario("rodrigo"), 17), usuariosRankingEstrela[2]);
 	}
+	
+	@Test
+	public void rankingSomenteUsuariosDoTipoDaPontuaoEspecificada() {
+		ArmazenamentoMock armazenamentoMock = new ArmazenamentoMock();
+		Placar placar = new Placar(armazenamentoMock);
+		armazenamentoMock.setSimulador(Simuladores.RankingSomenteUsuariosDoTipoDaPontuaoEspecificada);
+		UsuarioRanking[] usuariosRankingEstrela = placar.retornarUsuariosRanking("estrela");
+		assertEquals(1, usuariosRankingEstrela.length);
+		assertEquals(new UsuarioRanking(new Usuario("guerra"), 25), usuariosRankingEstrela[0]);
+	}
 
 }
