@@ -21,9 +21,9 @@ public class Placar {
 		String[] listaTipoDePontuacao = this.armazenavel.retornarTiposDePontuacao();
 		ArrayList<Pontuacao> listaTemporariaDePontuacao = new ArrayList<>();
 		for (String tipoDaPontuacao : listaTipoDePontuacao) {
-			int pontos = this.armazenavel.recuperarPontuacaoDoUsuario(usuario.getName(), tipoDaPontuacao);
-			if (pontos > 0)
-				listaTemporariaDePontuacao.add(new Pontuacao(tipoDaPontuacao, pontos));
+			int pontosDoUsuarioPorTipoDaPontuacao = this.armazenavel.recuperarPontuacaoDoUsuario(usuario.getName(), tipoDaPontuacao);
+			if (pontosDoUsuarioPorTipoDaPontuacao > 0)
+				listaTemporariaDePontuacao.add(new Pontuacao(tipoDaPontuacao, pontosDoUsuarioPorTipoDaPontuacao));
 		}
 		Pontuacao[] listaDePontuacaoDoUsuario = new Pontuacao[listaTemporariaDePontuacao.size()];
 		listaTemporariaDePontuacao.toArray(listaDePontuacaoDoUsuario);
@@ -33,9 +33,9 @@ public class Placar {
 	public UsuarioRanking[] retornarUsuariosRanking(String tipoDaPontuacao) {
 		ArrayList<UsuarioRanking> listUsuarioRankingTemporaria = new ArrayList<>();
 		for(String usuarioNome: this.armazenavel.retornarUsuarios()){
-			int pontos = this.armazenavel.recuperarPontuacaoDoUsuario(usuarioNome, tipoDaPontuacao);
-			if ( pontos > 0 )
-				listUsuarioRankingTemporaria.add(new UsuarioRanking(new Usuario(usuarioNome), pontos));
+			int pontosDoUsuarioPorTipoDaPontuacao = this.armazenavel.recuperarPontuacaoDoUsuario(usuarioNome, tipoDaPontuacao);
+			if ( pontosDoUsuarioPorTipoDaPontuacao > 0 )
+				listUsuarioRankingTemporaria.add(new UsuarioRanking(new Usuario(usuarioNome), pontosDoUsuarioPorTipoDaPontuacao));
 		}
 		return retornarRankinPorOrdemDePontosDecrescente(listUsuarioRankingTemporaria);
 	}
