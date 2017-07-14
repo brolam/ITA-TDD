@@ -2,6 +2,7 @@ package brolam.com;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
@@ -46,6 +47,8 @@ public class Armazenamento implements Armazenavel {
 			}
 			lerConteudoDoArquivo.close();
 			return Integer.valueOf(conteudoArquivoDePontuacao.toString());
+		} catch (FileNotFoundException e) {
+			return 0;
 		} catch (IOException ex) {
 			throw new RuntimeException(ex);
 		}

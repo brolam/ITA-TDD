@@ -17,11 +17,19 @@ public class IntegracaoPlacarArmazenamentoTest extends TestCase {
 		Usuario usuarioGuerra = new Usuario("guerra");
 		this.placar.registrarPontuacao(usuarioGuerra, new Pontuacao("estrela", 25));
 		this.placar.registrarPontuacao(usuarioGuerra, new Pontuacao("moeda", 20));
+		Usuario usuarioFernandes = new Usuario("fernandes");
+		this.placar.registrarPontuacao(usuarioFernandes, new Pontuacao("estrela", 19));
 	}
 	
 	public void testRecuperarPontuacaoDoUsuarioGuerra(){
 		Usuario usuarioGuerra = new Usuario("guerra");
 		Pontuacao[] listDePontuacaoEsperada = new Pontuacao[] { new Pontuacao("estrela", 25), new Pontuacao("moeda", 20) };
 		assertArrayEquals(listDePontuacaoEsperada, this.placar.retornarPontuacaoDoUsuario(usuarioGuerra));
+	}
+	
+	public void testRecuperarPontuacaoDoUsuarioFernandes(){
+		Usuario usuarioFernandes = new Usuario("fernandes");
+		Pontuacao[] listDePontuacaoEsperada = new Pontuacao[] { new Pontuacao("estrela", 19)};
+		assertArrayEquals(listDePontuacaoEsperada, this.placar.retornarPontuacaoDoUsuario(usuarioFernandes));
 	}
 }
