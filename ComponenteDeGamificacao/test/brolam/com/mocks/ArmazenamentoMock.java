@@ -20,15 +20,15 @@ public class ArmazenamentoMock implements Armazenavel {
 	}
 
 	@Override
-	public void salvarPontuacaoDoUsuario(String usuario, String tipoDaPontuacao, int pontos) {
+	public void salvarPontuacaoDoUsuario(String usuarioNome, String tipoDaPontuacao, int pontos) {
 		this.pontuacaoRegistrada = true;
 	}
 
 	@Override
-	public int recuperarPontuacaoDoUsuario(String usuario, String tipoDaPontuacao) {
+	public int recuperarPontuacaoDoUsuario(String usuarioNome, String tipoDaPontuacao) {
 		switch (this.simulador) {
 		case RetornarPontuacaoDoUsuario:
-			if (usuario != "guerra")
+			if (usuarioNome != "guerra")
 				return 0;
 			if (tipoDaPontuacao == "estrela")
 				return 10;
@@ -37,23 +37,23 @@ public class ArmazenamentoMock implements Armazenavel {
 			if (tipoDaPontuacao == "energia")
 				return 0;
 		case SomentePontuacaoMaiorDoQueZero:
-			if (usuario != "guerra")
+			if (usuarioNome != "guerra")
 				return 0;
 			if (tipoDaPontuacao == "estrela")
 				return 10;
 			if (tipoDaPontuacao == "energia")
 				return 0;
 		case RetornarUsuariosRanking:
-			if ((usuario == "rodrigo") && (tipoDaPontuacao == "estrela"))
+			if ((usuarioNome == "rodrigo") && (tipoDaPontuacao == "estrela"))
 				return 17;
-			if ((usuario == "fernandes") && (tipoDaPontuacao == "estrela"))
+			if ((usuarioNome == "fernandes") && (tipoDaPontuacao == "estrela"))
 				return 19;
-			if ((usuario == "guerra") && (tipoDaPontuacao == "estrela"))
+			if ((usuarioNome == "guerra") && (tipoDaPontuacao == "estrela"))
 				return 25;
 		case RankingSomenteUsuariosDoTipoDaPontuaoEspecificada:
-			if ((usuario == "guerra") && (tipoDaPontuacao == "estrela"))
+			if ((usuarioNome == "guerra") && (tipoDaPontuacao == "estrela"))
 				return 25;
-			if ((usuario == "toco") && (tipoDaPontuacao == "moeda"))
+			if ((usuarioNome == "toco") && (tipoDaPontuacao == "moeda"))
 				return 19;
 		default:
 			return 0;
