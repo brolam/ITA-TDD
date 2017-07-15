@@ -26,8 +26,8 @@ public class Armazenamento implements Armazenavel {
 	}
 
 	@Override
-	public void salvarPontuacaoDoUsuario(String usuario, String tipoDaPontuacao, int pontos) {
-		File arquivoUsuarioPontuacao = recuperarUmArquivoDePontuacao(usuario, tipoDaPontuacao);
+	public void salvarPontuacaoDoUsuario(String usuarioNome, String tipoDaPontuacao, int pontos) {
+		File arquivoUsuarioPontuacao = recuperarUmArquivoDePontuacao(usuarioNome, tipoDaPontuacao);
 		try (FileWriter escreverPontos = new FileWriter(arquivoUsuarioPontuacao)) {
 			escreverPontos.write(String.valueOf(pontos));
 			escreverPontos.flush();
@@ -37,8 +37,8 @@ public class Armazenamento implements Armazenavel {
 	}
 
 	@Override
-	public int recuperarPontuacaoDoUsuario(String usuario, String tipoDaPontuacao) {
-		File arquivoUsuarioPontuacao = recuperarUmArquivoDePontuacao(usuario, tipoDaPontuacao);
+	public int recuperarPontuacaoDoUsuario(String usuarioNome, String tipoDaPontuacao) {
+		File arquivoUsuarioPontuacao = recuperarUmArquivoDePontuacao(usuarioNome, tipoDaPontuacao);
 		try (InputStream lerConteudoDoArquivo = new FileInputStream(arquivoUsuarioPontuacao)) {
 			int caracter;
 			StringBuilder conteudoArquivoDePontuacao = new StringBuilder();
@@ -94,9 +94,9 @@ public class Armazenamento implements Armazenavel {
 		return file.getName().split("_")[1].replace(EXTENSAO_ARQUIVO_DE_PONTUACAO, "");
 	}
 
-	private File recuperarUmArquivoDePontuacao(String usuario, String tipoDaPontuacao) {
+	private File recuperarUmArquivoDePontuacao(String usuarioNome, String tipoDaPontuacao) {
 		String enderecoDoRepositorio = this.diretorioRepositorio.getAbsolutePath();
-		String nomeDoArquivoPontuacao = String.format("%s/%s_%s", enderecoDoRepositorio, usuario, tipoDaPontuacao);
+		String nomeDoArquivoPontuacao = String.format("%s/%s_%s", enderecoDoRepositorio, usuarioNome, tipoDaPontuacao);
 		return new File(nomeDoArquivoPontuacao + EXTENSAO_ARQUIVO_DE_PONTUACAO);
 	}
 
