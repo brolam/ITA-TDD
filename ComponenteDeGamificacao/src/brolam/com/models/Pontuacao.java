@@ -10,21 +10,21 @@ public class Pontuacao {
 	}
 	
 	public String getTipo() {
-		return tipo;
+		return this.tipo;
 	}
 	
 	public int getPontos() {
-		return pontos;
+		return this.pontos;
 	}
 	
 	@Override
 	public String toString() {
-		return String.format("%s: %s", getTipo(), getPontos());
+		return String.format("%s: %s", this.getTipo(), this.getPontos());
 	}
 	
 	@Override
-	public boolean equals(Object obj) {
-		return this.toString().equals(obj.toString());
+	public boolean equals(Object outraPontuacao) {
+		return this.toString().equals(outraPontuacao.toString());
 	}
 
 }
