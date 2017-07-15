@@ -10,11 +10,11 @@ public class UsuarioRanking implements Comparable<UsuarioRanking> {
 	}
 
 	public Usuario getUsuario() {
-		return usuario;
+		return this.usuario;
 	}
 
 	public int getPontos() {
-		return pontos;
+		return this.pontos;
 	}
 
 	@Override
@@ -23,8 +23,8 @@ public class UsuarioRanking implements Comparable<UsuarioRanking> {
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		return this.toString().equals(obj.toString());
+	public boolean equals(Object outroUsuarioRanking) {
+		return this.toString().equals(outroUsuarioRanking.toString());
 	}
 
 	@Override
